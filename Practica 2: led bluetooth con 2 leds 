@@ -1,0 +1,49 @@
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+
+const int LED1 = 2;
+const int LED2 = 4;
+char dato;
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, LOW);
+
+  SerialBT.begin("ESP32_Anthony");
+
+  Serial.println("Bluetooth listo");
+  Serial.println("Busca ESP32_LED en tu celular");
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    dato = SerialBT.read();
+
+    if (dato == '1') {
+      digitalWrite(LED1, HIGH);
+      SerialBT.println("LED 1 ENCENDIDO");
+      Serial.println("LED 1 ENCENDIDO");
+    }
+    else if (dato == '0') {
+      digitalWrite(LED1, LOW);
+      SerialBT.println("LED 1 APAGADO");
+      Serial.println("LED 1 APAGADO");
+    }
+    else if (dato == '2') {
+      digitalWrite(LED2, HIGH);
+      SerialBT.println("LED 2 ENCENDIDO");
+      Serial.println("LED 2 ENCENDIDO");
+    }
+    else if (dato == '3') {
+      digitalWrite(LED2, LOW);
+      SerialBT.println("LED 2 APAGADO");
+      Serial.println("LED 2 APAGADO");
+    }
+  }
+}
